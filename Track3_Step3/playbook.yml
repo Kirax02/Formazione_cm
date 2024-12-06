@@ -1,6 +1,5 @@
 ---
-- name: Configurare e gestire container
-  hosts: localhost
+- hosts: localhost
   roles:
     - registry
     - build_containers

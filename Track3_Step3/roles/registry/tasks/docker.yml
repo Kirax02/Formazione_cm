@@ -1,5 +1,5 @@
 ---
-- name: Avviare il container Docker Registry
+- name: Start container registry
   community.docker.docker_container:
     name: registry
     image: registry:2

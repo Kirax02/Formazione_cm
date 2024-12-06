@@ -1,5 +1,5 @@
 ---
-- name: Usare Podman se Docker non è disponibile
+- name: Start container registry
   containers.podman.podman_container:
     name: registry
     image: registry:2

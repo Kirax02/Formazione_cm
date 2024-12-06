@@ -1,10 +1,10 @@
 ---    
-- name: Creazione della directory per i dati del registro
+- name: Create directory for registry
   file:
     path: "/Users/lorenzomoro/registry"
     state: directory
 
-- name: Rilevare il motore di container (Docker o Podman)
+- name: Check docker or podman
   command: which docker
   register: docker_check
   ignore_errors: true
