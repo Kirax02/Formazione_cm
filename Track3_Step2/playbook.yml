@@ -1,0 +1,60 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Create directories for Dockerfiles
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - ./debian_container
+        - ./ubuntu_container
+
+    - name: Copy Dockerfile for Debian
+      copy:
+        src: files/Dockerfile_debian
+        dest: ./debian_container/Dockerfile
+
+    - name: Copy id_rsa for Debian
+      copy:
+        src: files/id_rsa.pub
+        dest: ./debian_container
+
+    - name: Copy Dockerfile for Ubuntu
+      copy:
+        src: files/Dockerfile_ubuntu
+        dest: ./ubuntu_container/Dockerfile
+
+    - name: Copy id_rsa for Ubuntu
+      copy:
+        src: files/id_rsa.pub
+        dest: ./ubuntu_container
+
+    - name: Build Debian container
+      docker_image:
+        source: build
+        build:
+          path: ./debian_container
+        name: debian_ssh
+
+    - name: Build Ubuntu container
+      docker_image:
+        source: build
+        build:
+          path: ./ubuntu_container
+        name: ubuntu_ssh
+
+    - name: Run Debian container
+      docker_container:
+        name: debian_ssh
+        image: debian_ssh
+        state: started
+        ports:
+          - "2222:22"
+
+    - name: Run Ubuntu container
+      community.docker.docker_container:
+        name: ubuntu_ssh
+        image: ubuntu_ssh
+        state: started
+        ports:
+          - "2223:22"
